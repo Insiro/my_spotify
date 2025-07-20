@@ -4,6 +4,7 @@ import "time"
 
 type PlayHistory struct {
 	Id            uint          `gorm:"autoIncrement"`
+	User          User          `gorm:"index:idx_playHistory_User"`
 	Track         Track         ``
 	Album         Album         `gorm:"index:idx_play_history_album"`
 	PrimaryArtist Artist        `gorm:"index:idx_play_history_primary_artist"`
