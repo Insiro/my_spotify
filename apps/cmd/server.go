@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	controllers "github.com/Insiro/my_spotify/internal/controller"
+	controllers "github.com/Insiro/my_spotify/internal/controller/root"
 	"github.com/Insiro/my_spotify/pkg/database"
 	"github.com/Insiro/my_spotify/pkg/server"
 	"go.uber.org/fx"
