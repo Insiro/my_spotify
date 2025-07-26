@@ -1,4 +1,4 @@
-package pkg
+package auth
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func ParseToken(tokenString string, secret string) (jwt.MapClaims, error) {
+func parseToken(tokenString string, secret string) (jwt.MapClaims, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])

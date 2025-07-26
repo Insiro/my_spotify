@@ -1,29 +1,24 @@
-package middleware
+package auth
 
 import (
 	"github.com/Insiro/my_spotify/internal/service"
-	"github.com/Insiro/my_spotify/pkg"
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
 )
 
-type AuthMiddleware struct {
+type Middleware struct {
 	privateData service.PrivateDataService
 	user        service.UserService
 }
 
-func NewAuthMiddleware(privateData service.PrivateDataService, user service.UserService) *AuthMiddleware {
-	return &AuthMiddleware{
+func NewAuthMiddleware(privateData service.PrivateDataService, user service.UserService) *Middleware {
+	return &Middleware{
 		privateData: privateData,
 		user:        user,
 	}
 }
 
-type JwtUser struct {
-	UserId string
-}
-
-func (m *AuthMiddleware) BaseLogged(c echo.Context, useQueryToken *bool) (*JwtUser, error) {
+func (m *Middleware) BaseLogged(c echo.Context, useQueryToken *bool) (*JwtUser, error) {
 	// Get token from query parameter if enabled
 	queryToken := c.QueryParam("token")
 
@@ -49,7 +44,7 @@ func (m *AuthMiddleware) BaseLogged(c echo.Context, useQueryToken *bool) (*JwtUs
 		return nil, errors.New("No private data found, cannot sign JWT")
 	}
 	jwtUser := &JwtUser{}
-	claims, err := pkg.ParseToken(auth.Value, privateData.JwtPrivateKey)
+	claims, err := parseToken(auth.Value, privateData.JwtPrivateKey)
 	if err != nil {
 		return nil, err
 	}
